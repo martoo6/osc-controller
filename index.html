@@ -1,23 +1,31 @@
 <HEAD>
   <meta charset="utf-8" />
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/purecss@1.0.1/build/pure-min.css"
-    integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47"
-    crossorigin="anonymous"
-  />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/dsmorse-gridster@0.8.0/dist/jquery.dsmorse-gridster.min.css"
     integrity="sha256-U6yBIyg3hrh84a4TxrUxDpqnu5VwurBinfONboy5HPQ="
     crossorigin="anonymous"
   />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/css/uikit.min.css"
+  />
 
-  <script src="https://cdn.jsdelivr.net/npm/osc-js@2.0.3/lib/osc.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit-icons.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/osc@2.3.1/dist/osc-browser.min.js"
+    integrity="sha256-Wp4YbHJny3L/oa4rjj5KBgf22N2JRt99qecF7NDiCNg="
+    crossorigin="anonymous"
+  ></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+
+  <script type="text/javascript" src="./instascan.min.js"></script>
   <script src="https://rawgit.com/nexus-js/ui/master/dist/NexusUI.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script> -->
   <script
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -56,212 +64,6 @@
   ></script>
 
   <style>
-    /*
-Add transition to containers so they can push in and out.
-*/
-    #layout,
-    #menu,
-    .menu-link {
-      -webkit-transition: all 0.2s ease-out;
-      -moz-transition: all 0.2s ease-out;
-      -ms-transition: all 0.2s ease-out;
-      -o-transition: all 0.2s ease-out;
-      transition: all 0.2s ease-out;
-    }
-
-    /*
-This is the parent `<div>` that contains the menu and the content area.
-*/
-    #layout {
-      position: relative;
-      left: 0;
-      padding-left: 0;
-    }
-    #layout.active #menu {
-      left: 150px;
-      width: 150px;
-    }
-
-    #layout.active .menu-link {
-      left: 150px;
-    }
-    /*
-The content `<div>` is where all your content goes.
-*/
-    .content {
-      margin: 0 auto;
-      padding: 0 0em;
-    }
-
-    body {
-      background: #191818;
-    }
-
-    /*
-The `#menu` `<div>` is the parent `<div>` that contains the `.pure-menu` that
-appears on the left side of the page.
-*/
-
-    #menu {
-      margin-left: -150px; /* "#menu" width */
-      width: 150px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      z-index: 1000; /* so the menu or its navicon stays above all content */
-      background: #191818;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    /*
-    All anchors inside the menu should be styled like this.
-    */
-    #menu a {
-      color: #999;
-      border: none;
-      padding: 0.6em 0 0.6em 0.6em;
-    }
-
-    /*
-    Remove all background/borders, since we are applying them to #menu.
-    */
-    #menu .pure-menu,
-    #menu .pure-menu ul {
-      border: none;
-      background: transparent;
-    }
-
-    /*
-    Add that light border to separate items into groups.
-    */
-    #menu .pure-menu ul,
-    #menu .pure-menu .menu-item-divided {
-      border-top: 1px solid #333;
-    }
-    /*
-        Change color of the anchor links on hover/focus.
-        */
-    #menu .pure-menu li a:hover,
-    #menu .pure-menu li a:focus {
-      background: #333;
-    }
-
-    /*
-    This styles the selected menu item `<li>`.
-    */
-    #menu .pure-menu-selected,
-    #menu .pure-menu-heading {
-      background: #1f8dd6;
-    }
-    /*
-        This styles a link within a selected menu item `<li>`.
-        */
-    #menu .pure-menu-selected a {
-      color: #fff;
-    }
-
-    /*
-    This styles the menu heading.
-    */
-    #menu .pure-menu-heading {
-      font-size: 110%;
-      color: #fff;
-      margin: 0;
-    }
-
-    /* -- Dynamic Button For Responsive Menu -------------------------------------*/
-
-    /*
-The button to open/close the Menu is custom-made and not part of Pure. Here's
-how it works:
-*/
-
-    /*
-`.menu-link` represents the responsive menu toggle that shows/hides on
-small screens.
-*/
-    .menu-link {
-      position: fixed;
-      display: block; /* show this only on small screens */
-      top: 0;
-      left: 0; /* "#menu width" */
-      background: #000;
-      background: rgba(0, 0, 0, 0.7);
-      font-size: 10px; /* change this value to increase/decrease button size */
-      z-index: 10;
-      width: 2em;
-      height: auto;
-      padding: 2.1em 1.6em;
-    }
-
-    .menu-link:hover,
-    .menu-link:focus {
-      background: #000;
-    }
-
-    .menu-link span {
-      position: relative;
-      display: block;
-    }
-
-    .menu-link span,
-    .menu-link span:before,
-    .menu-link span:after {
-      background-color: #fff;
-      width: 100%;
-      height: 0.2em;
-    }
-
-    .menu-link span:before,
-    .menu-link span:after {
-      position: absolute;
-      margin-top: -0.6em;
-      content: ' ';
-    }
-
-    .menu-link span:after {
-      margin-top: 0.6em;
-    }
-
-    /* -- Responsive Styles (Media Queries) ------------------------------------- */
-
-    /*
-Hides the menu at `48em`, but modify this based on your app's needs.
-*/
-    @media (min-width: 4800em) {
-      .header,
-      .content {
-        padding-left: 2em;
-        padding-right: 2em;
-      }
-
-      #layout {
-        padding-left: 150px; /* left col width "#menu" */
-        left: 0;
-      }
-      #menu {
-        left: 150px;
-      }
-
-      .menu-link {
-        position: fixed;
-        left: 150px;
-        display: none;
-      }
-
-      #layout.active .menu-link {
-        left: 150px;
-      }
-    }
-
-    @media (max-width: 4800em) {
-      #layout.active {
-        position: relative;
-        left: 150px;
-      }
-    }
-
     .item {
       text-align: center;
       font-size: 24px;
@@ -271,6 +73,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
       color: rgba(255, 255, 255, 0.9);
       border-radius: 20px;
       border-style: dashed;
+      list-style: none;
     }
 
     .vertical-center {
@@ -290,284 +93,430 @@ Hides the menu at `48em`, but modify this based on your app's needs.
       transform: translate(-50%, 0%);
     }
 
-    input {
-      display: inline-block;
-      color: white;
-      /* /* padding: 10px; */
-      width: 95px;
-      box-sizing: border-box;
-      background-color: rgba(100, 100, 100, 0.25);
-      border: none;
-      border-radius: 2px;
-      /* margin: 10px auto; */
-      transition: background-color 0.5s ease;
-      font-size: 0.5em;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 2;
-      cursor: pointer;
-    }
-
-    .ull {
-      list-style-type: none;
-    }
-
-    .lil {
-      list-style: none;
-      font-weight: bold;
-    }
-
     .preventclick {
       pointer-events: none;
     }
-
-    .pure-menu-item {
-      height: auto;
-    }
   </style>
 </HEAD>
-<BODY>
-  <div id="layout">
-    <!-- Menu toggle -->
-    <a href="#menu" id="menuLink" class="menu-link">
-      <!-- Hamburger icon -->
-      <span></span>
-    </a>
-
-    <div id="menu">
-      <div class="pure-menu">
-        <a class="pure-menu-heading" href="#">Widgets</a>
-
-        <ul class="pure-menu-list">
-          <li class="pure-menu-item">
-            <a href="#" class="pure-menu-link" id="hSliderBtn"
-              >Horizontal slider</a
-            >
-          </li>
-          <li class="pure-menu-item">
-            <a href="#" class="pure-menu-link" id="vSliderBtn"
-              >Vertical slider</a
-            >
-          </li>
-          <li class="pure-menu-item">
-            <a href="#" class="pure-menu-link" id="dialBtn">Dial</a>
-          </li>
-          <li class="pure-menu-item">
-            <a href="#" class="pure-menu-link" id="buttonBtn">Button</a>
-          </li>
-          <li class="pure-menu-item">
-            <a href="#" class="pure-menu-link" id="labelBtn">Label</a>
-          </li>
-          <a class="pure-menu-heading" href="#">Running</a>
-          <li class="pure-menu-item">
-            <input placeholder="127.0.0.1" />
-          </li>
-          <li class="pure-menu-item">
-            <a href="#" class="pure-menu-link" id="runBtn">RUN</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="main">
-      <div class="content">
-        <div id="controls" class="gridster">
-          <ul class="ull"></ul>
-        </div>
-      </div>
+<BODY style="background-color: #222">
+  <div id="qrScannerModal" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical">
+      <video autoplay="autoplay" id="qrScannerVideo"></video>
     </div>
   </div>
 
+  <div id="qrModal" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical">
+      <canvas id="qrCanvas"></canvas>
+    </div>
+  </div>
+
+  <nav
+    class="uk-navbar-container"
+    uk-navbar="mode: click"
+    style="background: #3c3c3c"
+  >
+    <ul class="uk-navbar-nav">
+      <li><a href="#" id="editBtn" uk-toggle="target: #widgets">Edit</a></li>
+      <li>
+        <a href="#">Zoom</a>
+        <div class="uk-navbar-dropdown" style="background: #3c3c3c">
+          <ul class="uk-nav uk-navbar-dropdown-nav">
+            <li><a href="#" id="zoom0.5XBtn">0.5x</a></li>
+            <li><a href="#" id="zoom1XBtn" class="uk-active">1x</a></li>
+            <li><a href="#" id="zoom2XBtn">2x</a></li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="#" id="shareBtn" uk-toggle="target: #qrModal">Share</a></li>
+      <li>
+        <a href="#" id="syncBtn" uk-toggle="target: #qrScannerModal">Sync</a>
+      </li>
+    </ul>
+
+    <div class="uk-navbar-item">
+      <input
+        id="serverInput"
+        class="uk-input uk-form-width-medium"
+        type="text"
+        value="192.168.0.224:8081"
+        style="margin-right: 5px"
+      />
+      <button id="runBtn" class="uk-button">
+        Run
+      </button>
+    </div>
+  </nav>
+
+  <div id="widgets" uk-offcanvas="mode: push">
+    <div
+      class="uk-offcanvas-bar uk-flex uk-flex-column"
+      style="background: #3c3c3c"
+    >
+      <button class="uk-offcanvas-close" type="button" uk-close></button>
+      <a class="uk-navbar-item uk-logo" href="#">Widgets</a>
+      <button class="uk-button uk-button-default" id="hSliderBtn">
+        Horizontal slider
+      </button>
+      <button class="uk-button uk-button-default" id="vSliderBtn">
+        Vertical slider
+      </button>
+      <button class="uk-button uk-button-default" id="dialBtn">Dial</button>
+      <button class="uk-button uk-button-default" id="buttonBtn">
+        Button
+      </button>
+      <button class="uk-button uk-button-default" id="labelBtn">Label</button>
+      <button class="uk-button uk-button-default" id="toggleBtn">
+        Toggle
+      </button>
+    </div>
+  </div>
+
+  <div id="controls" class="gridster" style="background: #222">
+    <ul style="list-style-type: none; list-style:none;"></ul>
+  </div>
+  <div style="background: #222; height: 100%;"></div>
+
   <script>
-    //_______________________________________________________________________________________________________________________________________________________________
-    // ___________________________________________________________________________ UI  ___________________________________________________________________________
-    //_______________________________________________________________________________________________________________________________________________________________
-
-    (function(window, document) {
-      var layout = document.getElementById('layout'),
-        menu = document.getElementById('menu'),
-        menuLink = document.getElementById('menuLink'),
-        content = document.getElementById('main');
-
-      function toggleClass(element, className) {
-        var classes = element.className.split(/\s+/),
-          length = classes.length,
-          i = 0;
-
-        for (; i < length; i++) {
-          if (classes[i] === className) {
-            classes.splice(i, 1);
-            break;
-          }
-        }
-        // The className is not found
-        if (length === classes.length) {
-          classes.push(className);
-        }
-
-        element.className = classes.join(' ');
-      }
-
-      function toggleAll(e) {
-        var active = 'active';
-
-        e.preventDefault();
-        toggleClass(layout, active);
-        toggleClass(menu, active);
-        toggleClass(menuLink, active);
-      }
-
-      menuLink.onclick = function(e) {
-        toggleAll(e);
-      };
-
-      content.onclick = function(e) {
-        if (menu.className.indexOf('active') !== -1) {
-          toggleAll(e);
-        }
-      };
-    })(this, this.document);
-
-    //_______________________________________________________________________________________________________________________________________________________________
-    // ___________________________________________________________________________ UI END ___________________________________________________________________________
-    //_______________________________________________________________________________________________________________________________________________________________
-
-    let hidden = false;
-    document.onkeyup = e => {
-      if (e.key == 'h' || e.key == 'H') {
-        if (hidden) {
-          $('#widgets').hide();
-          document.getElementById('controls').className =
-            'pure-u-24-24 grid-stack';
-        } else {
-          $('#widgets').show();
-          document.getElementById('controls').className =
-            'pure-u-22-24 grid-stack';
-        }
-        hidden = !hidden;
-      }
-    };
-
-    // $(function() {
-    const options = {
+    const gridsterOptions = {
       widget_margins: [5, 5],
-      widget_base_dimensions: [20, 20],
+      widget_base_dimensions: [45, 45],
       shift_widgets_up: false,
       shift_larger_widgets_down: false,
       collision: {
         wait_for_mouseup: true
       },
-      max_rows: 500
+      serialize_params: ($w, wgd) => {
+        return {
+          c: wgd.col,
+          r: wgd.row,
+          sx: wgd.size_x,
+          sy: wgd.size_y,
+          t: $w
+            .attr('class')
+            .split(/\s+/)
+            .filter(x => x != 'item')[0],
+          i: parseInt($w.attr('id').split('-')[2])
+        };
+      },
+      max_rows: 100,
+      max_cols: 100
     };
 
-    const controls = $('.gridster ul')
-      .gridster(options)
+    let controls = $('.gridster ul')
+      .gridster(gridsterOptions)
       .data('gridster');
+
+    const nexusSize = (xSize, ySize) => {
+      return [
+        (gridsterOptions.widget_margins[0] +
+          gridsterOptions.widget_base_dimensions[0]) *
+          xSize -
+          gridsterOptions.widget_margins[0],
+        (gridsterOptions.widget_margins[1] +
+          gridsterOptions.widget_base_dimensions[1]) *
+          ySize -
+          gridsterOptions.widget_margins[1]
+      ];
+    };
+
+    let oscApp;
 
     const elemIndex = {
       button: 0,
       label: 0,
+      slider: 0,
       vSlider: 0,
       hSlider: 0,
-      dial: 0
+      dial: 0,
+      toggle: 0
     };
-    document.getElementById('buttonBtn').onclick = () => {
-      const index = elemIndex.button++;
+
+    const addButton = (index, col = 0, row = 0) => {
+      const xSize = 2;
+      const ySize = 2;
       controls.add_widget(
-        `<li id="buttonParent${index}" class="item"><div id="button${index}" class="vertical-center preventclick"></div></li>`,
-        2,
-        2
+        `<li id="button-parent-${index}" class="item button"><div id="button${index}" class="vertical-center preventclick"></div></li>`,
+        xSize,
+        ySize,
+        col,
+        row
       );
       //SAVE ?
       const element = new Nexus.Button(`#button${index}`, {
-        size: [45, 45],
-        mode: 'aftertouch',
-        state: false
+        size: nexusSize(xSize, ySize),
+        mode: 'aftertouch'
       });
+
+      element.on('change', function(v) {
+        oscApp.send({
+          address: '/buttons/' + index,
+          args: [{ type: 'f', value: v }]
+        });
+      });
+    };
+
+    document.getElementById('buttonBtn').onclick = () => {
+      const index = elemIndex.button++;
+      addButton(index);
+    };
+
+    const addLabel = (index, col = 0, row = 0) => {
+      const xSize = 4;
+      const ySize = 1;
+      controls.add_widget(
+        `<li id="label-parent-${index}" class="item label"><input id="label${index}" placeholder="Description" class="vertical-center"/></li>`,
+        xSize,
+        ySize,
+        col,
+        row
+      );
     };
 
     document.getElementById('labelBtn').onclick = () => {
       const index = elemIndex.label++;
-      controls.add_widget(
-        `<li id="hSliderParent${index}" class="item"><input id="label${index}" placeholder="Description" class="vertical-center"/></li>`,
-        4,
-        1
-      );
+      addLabel(index);
     };
 
-    document.getElementById('hSliderBtn').onclick = () => {
-      const index = elemIndex.hSlider++;
+    const addHSlider = (index, col = 0, row = 0) => {
+      const xSize = 4;
+      const ySize = 1;
       controls.add_widget(
-        `<li id="hSliderParent${index}" class="item"><div id="hSlider${index}" class="vertical-center preventclick"></div></li>`,
-        4,
-        1
+        `<li id="hSlider-parent-${index}" class="item hSlider"><div id="hSlider${index}" class="vertical-center preventclick"></div></li>`,
+        xSize,
+        ySize,
+        col,
+        row
       );
       //SAVE ?
       const element = new Nexus.Slider(`#hSlider${index}`, {
-        size: [95, 20],
-        mode: 'aftertouch',
-        state: false
+        size: nexusSize(xSize, ySize),
+        mode: 'relative', // 'relative' or 'absolute'
+        min: 0,
+        max: 1,
+        step: 0,
+        value: 0
+      });
+
+      element.on('change', function(v) {
+        oscApp.send({
+          address: '/sliders/' + index,
+          args: [{ type: 'f', value: v }]
+        });
+      });
+    };
+
+    document.getElementById('hSliderBtn').onclick = () => {
+      const index = elemIndex.slider++;
+      addHSlider(index);
+    };
+
+    const addVSlider = (index, col = 0, row = 0) => {
+      const xSize = 1;
+      const ySize = 4;
+      controls.add_widget(
+        `<li id="vSlider-parent-${index}" class="item vSlider"><div id="vSlider${index}" class="vertical-center preventclick"></div></li>`,
+        xSize,
+        ySize,
+        col,
+        row
+      );
+
+      const element = new Nexus.Slider(`#vSlider${index}`, {
+        size: nexusSize(xSize, ySize),
+        mode: 'relative', // 'relative' or 'absolute'
+        min: 0,
+        max: 1,
+        step: 0,
+        value: 0
+      });
+
+      element.on('change', function(v) {
+        oscApp.send({
+          address: '/sliders/' + index,
+          args: [{ type: 'f', value: v }]
+        });
       });
     };
 
     document.getElementById('vSliderBtn').onclick = () => {
-      const index = elemIndex.vSlider++;
+      const index = elemIndex.slider++;
+      addVSlider(index);
+    };
+
+    const addDial = (index, col = 0, row = 0) => {
+      const xSize = 2;
+      const ySize = 2;
       controls.add_widget(
-        `<li id="vSliderParent${index}" class="item"><div id="vSlider${index}" class="vertical-center preventclick"></div></li>`,
-        1,
-        4
+        `<li id="dial-parent-${index}" class="item dial"><div id="dial${index}" class="vertical-center preventclick"></div></li>`,
+        xSize,
+        ySize,
+        col,
+        row
       );
-      //SAVE ?
-      const element = new Nexus.Slider(`#vSlider${index}`, {
-        size: [20, 95],
-        mode: 'aftertouch',
-        state: false
+      const element = new Nexus.Dial(`#dial${index}`, {
+        size: nexusSize(xSize, ySize)
+      });
+      element.on('change', function(v) {
+        oscApp.send({
+          address: '/dials/' + index,
+          args: [{ type: 'f', value: v }]
+        });
       });
     };
 
     document.getElementById('dialBtn').onclick = () => {
       const index = elemIndex.dial++;
+      addDial(index);
+    };
+
+    const addtoggle = (index, col = 0, row = 0) => {
+      const xSize = 2;
+      const ySize = 2;
       controls.add_widget(
-        `<li id="dialParent${index}" class="item"><div id="dial${index}" class="vertical-center preventclick"></div></li>`,
-        4,
-        4
+        `<li id="toggle-parent-${index}" class="item toggle"><div id="toggle${index}" class="vertical-center preventclick"></div></li>`,
+        xSize,
+        ySize,
+        col,
+        row
       );
-      //SAVE ?
-      const element = new Nexus.Dial(`#dial${index}`, {
-        size: [90, 90]
+
+      const element = new Nexus.Toggle(`#toggle${index}`, {
+        size: nexusSize(xSize, ySize)
       });
 
-      document.getElementById(`dialParent${index}`).onclick = () => {};
+      element.on('change', function(v) {
+        oscApp.send({
+          address: '/toggles/' + index,
+          args: [{ type: 'f', value: v }]
+        });
+      });
+    };
+
+    document.getElementById('toggleBtn').onclick = () => {
+      const index = elemIndex.toggle++;
+      addtoggle(index);
     };
 
     let running = false;
     document.getElementById('runBtn').onclick = () => {
       running = !running;
-      Array.from(document.getElementsByClassName('preventclick')).forEach(e => {
-        if (running) {
-          e.style.pointerEvents = 'all';
-        } else {
-          e.style.pointerEvents = 'none';
-        }
-      });
-      Array.from(document.getElementsByClassName('item')).forEach(e => {
-        if (running) {
-          e.style.border = 'none';
-        } else {
-          e.style.border = '2px solid';
-        }
-      });
+      const pc = Array.from(document.getElementsByClassName('preventclick'));
+      const items = Array.from(document.getElementsByClassName('item'));
       if (running) {
+        document.getElementById('runBtn').innerHTML = 'Stop';
+        pc.forEach(e => (e.style.pointerEvents = 'all'));
+        items.forEach(e => (e.style.border = 'none'));
         controls.disable();
+        const [host = 'localhost', port = 8081] = document
+          .getElementById('serverInput')
+          .value.split(':');
+
+        oscApp = new osc.WebSocketPort({
+          url: `ws://${host}:${port}`
+        });
+        oscApp.open();
       } else {
+        document.getElementById('runBtn').innerHTML = 'Run';
+        pc.forEach(e => (e.style.pointerEvents = 'none'));
+        items.forEach(e => (e.style.border = '2px dashed'));
         controls.enable();
+        oscApp.close();
       }
+    };
+
+    const addNodes = nodes => {
+      //Should also user node sx, sy
+      for (let node of nodes) {
+        const col = node.c;
+        const row = node.r;
+        const index = node.i;
+
+        if (node.t == 'button') {
+          addButton(index, col, row);
+        } else if (node.t == 'label') {
+          addLabel(index, col, row);
+        } else if (node.t == 'vSlider') {
+          addVSlider(index, col, row);
+        } else if (node.t == 'hSlider') {
+          addHSlider(index, col, row);
+        } else if (node.t == 'dial') {
+          addDial(index, col, row);
+        } else if (node.t == 'toggle') {
+          addtoggle(index, col, row);
+        }
+      }
+    };
+
+    const restartControls = () => {
+      controls.destroy();
+      const doc = document.getElementById('controls');
+      while (doc.firstChild) {
+        doc.firstChild.remove();
+      }
+
+      controls = $('#controls')
+        .gridster(gridsterOptions)
+        .data('gridster');
+    };
+
+    const zoomTo = zoomLevel => {
+      const baseSize = 50;
+      gridsterOptions.widget_base_dimensions = [
+        baseSize * zoomLevel - 5,
+        baseSize * zoomLevel - 5
+      ];
+      //Iterar todos los items eliminando sus hijos y re agregar sabiendo la clase.
+
+      const nodes = controls.serialize();
+
+      restartControls();
+      addNodes(nodes);
+    };
+
+    document.getElementById('zoom0.5XBtn').onclick = () => {
+      zoomTo(0.5);
+    };
+    document.getElementById('zoom1XBtn').onclick = () => {
+      zoomTo(1);
+    };
+    document.getElementById('zoom2XBtn').onclick = () => {
+      zoomTo(2);
+    };
+
+    document.getElementById('shareBtn').onclick = () => {
+      var qr = new QRious({
+        element: document.getElementById('qrCanvas'),
+        value: JSON.stringify(controls.serialize()),
+        size: Math.min(window.innerWidth, window.innerHeight) * 0.9
+      });
+    };
+
+    document.getElementById('syncBtn').onclick = () => {
+      const scanner = new Instascan.Scanner({
+        video: document.getElementById('qrScannerVideo'),
+        mirror: false,
+        backgroundScan: false,
+        scanPeriod: 2
+      });
+      scanner.addListener('scan', function(content) {
+        restartControls();
+        const nodes = JSON.parse(content);
+        addNodes(nodes);
+        UIkit.modal(document.getElementById('qrScannerModal')).hide();
+        scanner.stop();
+      });
+      Instascan.Camera.getCameras()
+        .then(function(cameras) {
+          if (cameras.length > 0) {
+            scanner.start(cameras[cameras.length - 1]).catch(e => alert(e));
+          } else {
+            alert('No cameras found.');
+          }
+        })
+        .catch(function(e) {
+          alert(e);
+        });
     };
   </script>
 </BODY>
